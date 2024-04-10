@@ -12,16 +12,18 @@ def home():
 
 
 @app.route('/api/chat', methods=['POST'])
-async def chat():
-    # Extract message from the request
+def chat():
     data = request.json
     message = data.get('message')
+    # ... generate a response with your assistant ...
+    response = assistant.generate_response(
+        message)  # Make sure this is synchronous
 
-    # Generate a response from your RAGAssistant
-    response = await assistant.generate_response(message)
-
-    # Send the response back
-    return jsonify(response)
+    # Return both the user's message and the AI's response
+    return jsonify({
+        "user_message": message,
+        "ai_response": response
+    })
 
 
 @app.route('/api/fine-tune', methods=['POST'])
@@ -32,7 +34,7 @@ def fine_tune():
     file.save(file_path)
 
     # Fine-tune the assistant with the file
-    assistant.finetune(file_path)
+    assistant.finetune(file_path)  # Make sure this method is synchronous
 
     return jsonify({"message": "Fine-tuning started."})
 

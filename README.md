@@ -13,4 +13,4 @@ Installation of dependencies:
 9. pip install docx2txt
 10. pip install Flask
 11. pip install langchain_pinecone
-12. pip install fastapi-----
+12. pip install gunicorn

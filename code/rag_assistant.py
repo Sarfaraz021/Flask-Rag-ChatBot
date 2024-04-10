@@ -97,25 +97,25 @@ Answer:
             docs, embeddings, index_name=self.pinecone_index_name)
         self.retriever = vectbd.as_retriever()
 
-    async def generate_response(self, query):
+    def generate_response(self, query):
         if not self.retriever:
-            raise HTTPException(
-                status_code=500, detail="Retriever not initialized")
+            # Replace HTTPException with a normal exception
+            raise Exception("Retriever not initialized")
 
-        # Here we create an instance of the RetrievalQA chain
+        # Create an instance of the RetrievalQA chain (this should be synchronous)
         chain = RetrievalQA.from_chain_type(
             llm=self.llm,
             chain_type='stuff',
-            retriever=self.retriever,  # Use the instance variable here
+            retriever=self.retriever,
             chain_type_kwargs={"verbose": False, "prompt": self.prompt_template,
                                "memory": ConversationBufferMemory(memory_key="history", input_key="question")}
         )
 
-        # We use the chain to invoke the model and generate a response
+        # Use the chain to invoke the model and generate a response (this should be synchronous)
         assistant_response = chain.invoke(query)
         return assistant_response.get('result', 'No response generated')
 
-    async def finetune(self, file_path):
+    def finetune(self, file_path):
         """Determines the document type and uses the appropriate loader to fine-tune the model."""
         if file_path.endswith('.pdf'):
             loader = PyPDFLoader(file_path)
