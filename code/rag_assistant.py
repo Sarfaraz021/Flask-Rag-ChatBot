@@ -12,7 +12,6 @@ from langchain_community.document_loaders import UnstructuredExcelLoader
 from langchain_community.document_loaders.csv_loader import CSVLoader
 from langchain_community.document_loaders import TextLoader
 from langchain_community.document_loaders import PyPDFLoader
-from fastapi import HTTPException
 from langchain_pinecone import PineconeVectorStore
 from pinecone import Pinecone
 

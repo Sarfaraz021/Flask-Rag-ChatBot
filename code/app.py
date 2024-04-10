@@ -1,6 +1,7 @@
 # DanyAIApp\code\app.py
 from flask import Flask, request, jsonify, render_template
 from rag_assistant import RAGAssistant
+import os
 
 app = Flask(__name__)
 assistant = RAGAssistant()
@@ -33,10 +34,20 @@ def fine_tune():
     file_path = f"./data/{file.filename}"
     file.save(file_path)
 
-    # Fine-tune the assistant with the file
-    assistant.finetune(file_path)  # Make sure this method is synchronous
+    try:
+        # Fine-tune the assistant with the file
+        assistant.finetune(file_path)  # Make sure this method is synchronous
 
-    return jsonify({"message": "Fine-tuning started."})
+        # After fine-tuning, remove the file
+        os.remove(file_path)
+
+        return jsonify({"message": "Fine-tuning started and file removed after processing."})
+    except Exception as e:
+        # If there was an error, still try to remove the file
+        if os.path.exists(file_path):
+            os.remove(file_path)
+
+        return jsonify({"error": str(e)}), 500
 
 
 if __name__ == '__main__':
