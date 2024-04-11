@@ -22,7 +22,7 @@ class RAGAssistant:
         self.setup_prompt_template()
         self.retriever = None  # Define retriever as an instance variable
         # Specify the absolute path of the file
-        absolute_path = r'D:\DanyAIApp\code\data\dummy.txt'
+        absolute_path = r'D:\DanyAIApp\data\dummy.txt'
         # Get the current working directory
         current_directory = os.getcwd()
         # Calculate the relative path
