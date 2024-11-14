@@ -1,4 +1,4 @@
-# DanyAIApp
+# Flask Chatbot App
 
 Installation of dependencies:
 
